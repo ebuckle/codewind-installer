@@ -144,6 +144,15 @@ func Commands() {
 							},
 						},
 					},
+				}, {
+					Name:    "dependency-insights",
+					Aliases: []string{"dep"},
+					Usage:   "provide insights into the licensing of a project's dependencies",
+					Flags:   []cli.Flag{},
+					Action: func(c *cli.Context) error {
+						DependencyInsights(c)
+						return nil
+					},
 				},
 			},
 		},

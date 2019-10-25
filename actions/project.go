@@ -17,6 +17,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/eclipse/codewind-installer/utils"
+	"github.com/eclipse/codewind-installer/utils/license"
 	"github.com/eclipse/codewind-installer/utils/project"
 	"github.com/urfave/cli"
 )
@@ -116,4 +118,15 @@ func ProjectRemoveTargetConnection(c *cli.Context) {
 	response, _ := json.Marshal(project.Result{Status: "OK", StatusMessage: "Project target removed successfully"})
 	fmt.Println(string(response))
 	os.Exit(0)
+}
+
+// DependencyInsights outputs licensing information on project dependencies
+func DependencyInsights(c *cli.Context) {
+	err := project.ValidateProject(c)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	projectPath := c.Args().Get(0)
+	language, _ := utils.DetermineProjectInfo(projectPath)
+	license.ProduceInsights(language, projectPath)
 }

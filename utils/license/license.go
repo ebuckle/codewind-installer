@@ -49,9 +49,9 @@ func NodeCrawling(projectDir string, insightData map[string]interface{}) {
 					var result map[string]interface{}
 					json.Unmarshal([]byte(byteValue), &result)
 
-					newPackageData := make(map[string]string)
+					newPackageData := make(map[string]interface{})
 					TransferNodeData(result, newPackageData, path)
-					packageID := newPackageData["name"] + "@" + newPackageData["version"]
+					packageID := newPackageData["name"].(string) + "@" + newPackageData["version"].(string)
 					if _, ok := insightData[packageID]; !ok {
 						insightData[packageID] = newPackageData
 					}
@@ -68,7 +68,7 @@ func NodeCrawling(projectDir string, insightData map[string]interface{}) {
 }
 
 // TransferNodeData takes existing package data from a package.json and loads it into a packageData struct
-func TransferNodeData(packageJSON map[string]interface{}, packageData map[string]string, path string) {
+func TransferNodeData(packageJSON map[string]interface{}, packageData map[string]interface{}, path string) {
 	if str, ok := packageJSON["name"].(string); ok {
 		packageData["name"] = str
 	}
@@ -80,6 +80,10 @@ func TransferNodeData(packageJSON map[string]interface{}, packageData map[string
 	}
 	if str, ok := packageJSON["license"].(string); ok {
 		packageData["declaredLicenses"] = str
+	} else if arrStr, ok := packageJSON["license"].([]string); ok {
+		packageData["declaredLicenses"] = arrStr
+	} else {
+		packageData["declaredLicenses"] = "No Declared License"
 	}
 	packageData["path"] = path
 }

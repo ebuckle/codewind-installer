@@ -21,7 +21,7 @@ func ProduceInsights(language string, projectDir string) {
 		println("Not a node project")
 	}
 	PerformLicenseCheck(insightData)
-	//utils.PrettyPrintJSON(insightData)
+	utils.PrettyPrintJSON(insightData)
 }
 
 // NodeCrawling recursively crawls through installed node packages to map dependencies
@@ -86,7 +86,9 @@ func TransferNodeData(packageJSON map[string]interface{}, packageData map[string
 
 // PerformLicenseCheck takes an existing map of package data and performs a license check on each package
 func PerformLicenseCheck(insightData map[string]interface{}) {
-	for _, dep := range insightData {
-		licensedb.Analyse(dep["path"])
+	for _, depI := range insightData {
+		dep := depI.(map[string]interface{})
+		results := licensedb.Analyse(dep["path"].(string))
+		dep["license-analysis"] = results
 	}
 }

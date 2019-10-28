@@ -594,7 +594,7 @@
   version = "v4.13.1"
 
 [[projects]]
-  digest = "1:e600ffd982a82786fcabd9e02ec489467cb4e00b215e96f2a8aa61d7f9638e3f"
+  digest = "1:5dc1ebf82747822861c05faca31edbac0c02545394535a0e558d8ce466828802"
   name = "gopkg.in/src-d/go-license-detector.v3"
   packages = [
     "licensedb",
@@ -608,8 +608,8 @@
     "licensedb/internal/wmh",
   ]
   pruneopts = "UT"
-  revision = "7961dd6009019bc12778175ef7f074ede24bd128"
-  version = "v3.0.0"
+  revision = "5349709f1a7c7cf7bba3fe5a190f86214db89eea"
+  version = "v3.0.1"
 
 [[projects]]
   digest = "1:230742f38717fbc6bb5a97947c9fbf2bb7e146a09a496863a75672df001d2161"

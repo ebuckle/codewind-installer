@@ -18,7 +18,7 @@ func ProduceInsights(language string, projectDir string) {
 		println("Node project")
 		NodeCrawling(projectDir, insightData)
 	} else {
-		println("Not a node project")
+		println(language + " projects are not currently supported.")
 	}
 	PerformLicenseCheck(insightData)
 	utils.PrettyPrintJSON(insightData)

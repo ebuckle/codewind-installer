@@ -42,9 +42,8 @@ func NodeCrawling(projectDir string, insightData map[string]interface{}) {
 						log.Fatal(err)
 					}
 
-					defer jsonFile.Close()
-
 					byteValue, _ := ioutil.ReadAll(jsonFile)
+					jsonFile.Close()
 
 					var result map[string]interface{}
 					json.Unmarshal([]byte(byteValue), &result)
@@ -63,9 +62,38 @@ func NodeCrawling(projectDir string, insightData map[string]interface{}) {
 			}
 		}
 	} else {
-		println("No node modules installed")
+		println("No Node modules installed")
 	}
 }
+
+/*
+// GoCrawling recursively crawls through installed go packaged to map dependencies
+func GoCrawling(projectDir string, insightData map[string]interface{}) {
+	if utils.PathExists(projectDir + "/vendor") {
+		files, err := ioutil.ReadDir(projectDir + "/vendor")
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// Loop through dep sources
+		for _, file := range files {
+			if file.IsDir(file) {
+				path := projectDir + "/vendor/" + file.Name()
+				files, err := ioutil.ReadDir(path)
+
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				for _, file :=
+			}
+		}
+	} else {
+		println("No Go dependencies installed")
+	}
+}
+*/
 
 // TransferNodeData takes existing package data from a package.json and loads it into a packageData struct
 func TransferNodeData(packageJSON map[string]interface{}, packageData map[string]interface{}, path string) {

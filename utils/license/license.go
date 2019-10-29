@@ -17,6 +17,9 @@ func ProduceInsights(language string, projectDir string) {
 	if language == "nodejs" {
 		println("Node project")
 		NodeCrawling(projectDir, insightData)
+	} else if language == "unknown" {
+		println("Unknown Project")
+		GoCrawling(projectDir, insightData)
 	} else {
 		println(language + " projects are not currently supported.")
 	}
@@ -66,34 +69,46 @@ func NodeCrawling(projectDir string, insightData map[string]interface{}) {
 	}
 }
 
-/*
 // GoCrawling recursively crawls through installed go packaged to map dependencies
 func GoCrawling(projectDir string, insightData map[string]interface{}) {
-	if utils.PathExists(projectDir + "/vendor") {
-		files, err := ioutil.ReadDir(projectDir + "/vendor")
-
+	if utils.PathExists(projectDir + "vendor") {
+		sources, err := ioutil.ReadDir(projectDir + "vendor")
 		if err != nil {
 			log.Fatal(err)
 		}
-
 		// Loop through dep sources
-		for _, file := range files {
-			if file.IsDir(file) {
-				path := projectDir + "/vendor/" + file.Name()
-				files, err := ioutil.ReadDir(path)
+		for _, source := range sources {
+			if source.IsDir() {
+				sourcePath := projectDir + "vendor/" + source.Name()
+				authors, err := ioutil.ReadDir(sourcePath)
 
 				if err != nil {
 					log.Fatal(err)
 				}
 
-				for _, file :=
+				for _, author := range authors {
+					authorPath := sourcePath + "/" + author.Name()
+					dependencies, err := ioutil.ReadDir(authorPath)
+
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					for _, dependency := range dependencies {
+						newPackageData := make(map[string]interface{})
+						fullPath := authorPath + "/" + dependency.Name()
+						newPackageData["path"] = fullPath
+						depName := source.Name() + "/" + author.Name() + "/" + dependency.Name()
+
+						insightData[depName] = newPackageData
+					}
+				}
 			}
 		}
 	} else {
 		println("No Go dependencies installed")
 	}
 }
-*/
 
 // TransferNodeData takes existing package data from a package.json and loads it into a packageData struct
 func TransferNodeData(packageJSON map[string]interface{}, packageData map[string]interface{}, path string) {

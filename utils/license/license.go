@@ -87,11 +87,29 @@ func GoCrawling(projectDir string, insightData map[string]interface{}) {
 				}
 
 				for _, author := range authors {
+					completeFlag := false
 					authorPath := sourcePath + "/" + author.Name()
 					dependencies, err := ioutil.ReadDir(authorPath)
 
 					if err != nil {
 						log.Fatal(err)
+					}
+
+					// Check for non-directory in author path to see if we are at the package level
+					for _, dependency := range dependencies {
+						if !dependency.IsDir() {
+							newPackageData := make(map[string]interface{})
+							fullPath := authorPath
+							newPackageData["path"] = fullPath
+							depName := source.Name() + "/" + author.Name()
+							insightData[depName] = newPackageData
+
+							completeFlag = true
+						}
+					}
+
+					if completeFlag {
+						continue
 					}
 
 					for _, dependency := range dependencies {

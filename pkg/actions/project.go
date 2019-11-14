@@ -126,3 +126,18 @@ func ProjectRemoveConnection(c *cli.Context) {
 	fmt.Println(string(response))
 	os.Exit(0)
 }
+
+// ProjectInsights : Report on the licenses of project dependencies
+func ProjectInsights(c *cli.Context) {
+	projectPath := strings.TrimSpace(c.String("path"))
+	projectLanguage := strings.TrimSpace(c.String("language"))
+	response, err := project.ProduceInsights(projectLanguage, projectPath)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	PrettyPrintJSON(response)
+	os.Exit(0)
+}

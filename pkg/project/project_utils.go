@@ -26,7 +26,9 @@ type ProjectError struct {
 const (
 	errBadPath       = "proj_path"     // Invalid path provided
 	errBadType       = "proj_type"     // Invalid type provided
+	errBadLanguage   = "proj_language" // Invalid language provided
 	errOpResponse    = "proj_response" // Bad response to http
+	errOpDepWalk     = "proj_walk"     // Error while walking through dependency dir
 	errOpFileParse   = "proj_parse"
 	errOpFileLoad    = "proj_load"
 	errOpFileWrite   = "proj_write"
@@ -47,6 +49,7 @@ const (
 	textAPINotFound      = "unable to find requested resource on Codewind server"
 	textNoProjects       = "unable to find any codewind projects"
 	textUpgradeError     = "error occurred upgrading projects"
+	textLanguageError    = "language is invalid or not supported"
 )
 
 // ProjectError : Error formatted in JSON containing an errorOp and a description from

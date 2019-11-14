@@ -153,6 +153,19 @@ func Commands() {
 						},
 					},
 				},
+				{
+					Name:    "insights",
+					Aliases: []string{"in"},
+					Usage:   "Report insights on a project and it's dependencies",
+					Flags: []cli.Flag{
+						cli.StringFlag{Name: "path, p", Usage: "the path to the project", Required: true},
+						cli.StringFlag{Name: "language, l", Usage: "the project language", Required: true},
+					},
+					Action: func(c *cli.Context) error {
+						ProjectInsights(c)
+						return nil
+					},
+				},
 			},
 		},
 
